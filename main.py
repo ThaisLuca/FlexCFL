@@ -1,5 +1,6 @@
 import os
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
+
 from utils.trainer_utils import TrainConfig
 from flearn.trainer.fedavg import FedAvg
 from flearn.trainer.fedgroup import FedGroup

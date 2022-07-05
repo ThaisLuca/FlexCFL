@@ -20,10 +20,11 @@ class FedGroup(GroupBase):
         else:
             for g in self.groups: g.aggregation_strategy = 'fedavg'
 
-    """ Cold strat all groups when create the trainer
-    """
     def group_cold_start(self, alpha=20, clients=None, random_centers=False):
-
+        """ 
+            Cold start all groups when create the trainer
+        """
+        
         # Clustering with all clients by default
         if clients is None: clients = self.clients
 
@@ -41,11 +42,14 @@ class FedGroup(GroupBase):
         # Strategy #2: Pre-train, then clustering the directions of clients' weights
         # <FedGroup> and <FedGrouProx> use this strategy
         if random_centers == False:
+            
+            # Selects clients randomly to participate in the current training round
             selected_clients = random.sample(clients, k=min(self.num_group*alpha, len(clients)))
-
+            print('Selected clients', len(selected_clients))
             for c in selected_clients: c.clustering = True # Mark these clients as clustering client
 
             cluster = self.clustering_clients(selected_clients) # {Cluster ID: (cm, [c1, c2, ...])}
+
             # Init groups accroding to the clustering results
             for g, id in zip(self.groups, cluster.keys()):
                 # Init the group latest update
@@ -64,10 +68,11 @@ class FedGroup(GroupBase):
             '''self.refresh_discrepancy_and_dissmilarity(selected_clients)'''
         return
 
-    """ Clustering clients 
-        Return: {Cluster ID: (parameter mean, update mean, client_list ->[c1, c2, ...])}
-    """
     def clustering_clients(self, clients, n_clusters=None, max_iter=20):
+        """ Clustering clients 
+            Return: {Cluster ID: (parameter mean, update mean, client_list ->[c1, c2, ...])}
+        """
+        
         if n_clusters is None: n_clusters = self.num_group
         if len(clients) < n_clusters: 
             print("ERROR: Not enough clients for clustering!!")

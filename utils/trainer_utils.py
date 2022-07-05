@@ -36,7 +36,7 @@ class TrainConfig(object):
         if trainer in ['fedgroup', 'fesem', 'ifca']:
             if trainer == 'fedgroup':
                 self.trainer_config.update({
-                    'num_group': 3,
+                    'num_group': 3, # Number of clusters
                     'group_agg_lr': 0.0,
                     'eval_global_model': True,
                     'pretrain_scale': 20,
@@ -52,7 +52,7 @@ class TrainConfig(object):
                 
             if trainer in ['fesem',  'ifca']:
                 self.trainer_config.update({
-                    'num_group': 3,
+                    'num_group': 3, # Number of clusters
                     # The iter-group aggregation is disabled
                     'group_agg_lr': 0.0,
                     'eval_global_model': True
