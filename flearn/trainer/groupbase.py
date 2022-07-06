@@ -128,7 +128,7 @@ class GroupBase(object):
             #selected_clients = self.clients[:20] # DEBUG, only use first 20 clients to train
             
             # * Change the clients's data distribution
-            self.data_distribution_shift(comm_round, self.clients, self.shift_type, self.swap_p)
+            #self.data_distribution_shift(comm_round, self.clients, self.shift_type, self.swap_p)
 
             # 2, Schedule clients (for example: reassign) or cold start clients, need selected clients only
             schedule_results = self.schedule_clients(comm_round, selected_clients, self.groups)
