@@ -81,13 +81,12 @@ class Group(Actor):
         super(Group, self).clear_downlink()
         self.refresh()
     
-    ''' The aggregatation algorithm of group is fedavg
-    '''
     def federated_averaging_aggregate(self, updates, nks):
+        ''' The aggregatation algorithm of group is fedavg'''
         return self.weighted_aggregate(updates, nks)
 
-    """ Aggregate client updates according to their sample size and temperatrues """
     def federated_averaging_aggregate_with_temperature(self, updates, nks, temps, max_temp):
+        """ Aggregate client updates according to their sample size and temperatrues """
         if len(temps) == 0: 
             return [np.zeros_like(ws) for ws in self.latest_params]
         else:
@@ -117,13 +116,13 @@ class Group(Actor):
             metric = np.sum(metrics*normalws)
             return metric
 
-    '''
-        The train procedure of group contains the aggreagation of clients' update
-    '''
     def train(self, selected_nodes=None):
         '''
         Train on selected downlink clients and aggregate these updates,
         Default train on all downlink client.
+
+        The train procedure of group contains the aggreagation of clients' update
+
         Return:
             results: 
                 list of list of training results ->[[result1], [result2], [result3], ...]
@@ -193,10 +192,8 @@ class Group(Actor):
             print(f'ERROR: Group {self.id} has not any valid training clients with training data which is invalid.')
             return
 
-    '''
-    Test all clients in the downlink
-    '''
     def test(self):
+        '''Test all clients in the downlink'''
         if len(self.downlink) == 0:
             print(f"Warning: Group {self.id} is empty.")
             return 0, 0, 0

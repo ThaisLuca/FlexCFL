@@ -40,9 +40,8 @@ class Actor(object):
         self.latest_updates = [np.zeros_like(ws) for ws in self.latest_params]
         self.local_gradient = [np.zeros_like(ws) for ws in self.latest_params]
 
-    '''Return the parameters of global model instance
-    '''
     def get_params(self):
+        '''Return the parameters of global model instance'''
         if self.model:
             return self.model.get_weights()
     

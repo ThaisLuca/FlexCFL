@@ -86,12 +86,11 @@ class GroupBase(object):
         # DEBUG: Randomly schedule all clients
         #self.randomly_schedule_clients()
     
-
-    '''
-    The iter-group aggregation
-    Note: The latest updates of group will be accumulated from last fedavg training
-    '''
     def inter_group_aggregation(self, train_results, agg_lr=0.0):
+        '''
+        The iter-group aggregation
+        Note: The latest updates of group will be accumulated from last fedavg training
+        '''
         group_num = len(train_results)
         groups = [rest[0] for rest in train_results]
         gsolns = [g.latest_params for g in groups]
@@ -241,10 +240,11 @@ class GroupBase(object):
 
         return agg_updates # -> list
 
-    '''
-    Summary the train results or test results
-    '''
+    
     def summary_results(self, comm_round, train_results=None, test_results=None):
+        '''
+        Summary the train results or test results
+        '''
 
         partial_test_acc = False
         ty2 = ''
@@ -343,8 +343,7 @@ class GroupBase(object):
         return
 
     def schedule_groups(self, round, clients, groups):
-        """rewrite this function if need
-        """
+        """rewrite this function if need"""
         return
 
     # Refresh the difference value (discrepancy) and cosine dissimilarity cosine of clients and gorups and
@@ -368,19 +367,19 @@ class GroupBase(object):
             diffs[f'G{g.id}'] = (len(gc), g.discrepancy)
         return diffs
 
-    """ Average the groups' model and get the new auxiliary global model
-    """
+    
     def update_auxiliary_global_model(self, groups):
+        """ Average the groups' model and get the new auxiliary global model"""
         prev_server_params = self.server.latest_params
         new_server_params = self.simply_averaging_aggregate([g.latest_params for g in groups])
         self.server.latest_updates = [(new-prev) for prev, new in zip(prev_server_params, new_server_params)]
         self.server.latest_params = new_server_params
         return
 
-    """ This function will randomly swap <warm> clients' data with probability swap_p
-    """
+    
     def swap_data(self, clients, swap_p, scope='all'):
-
+        """ This function will randomly swap <warm> clients' data with probability swap_p
+        """
         # Swap the data of warm clients with probability swap_p
         clients_size = len(clients)
         # Randomly swap two clients' dataset

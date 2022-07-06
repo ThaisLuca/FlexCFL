@@ -24,7 +24,7 @@ class FedGroup(GroupBase):
         """ 
             Cold start all groups when create the trainer
         """
-        
+        print('COLD STARTING')
         # Clustering with all clients by default
         if clients is None: clients = self.clients
 
@@ -42,7 +42,7 @@ class FedGroup(GroupBase):
         # Strategy #2: Pre-train, then clustering the directions of clients' weights
         # <FedGroup> and <FedGrouProx> use this strategy
         if random_centers == False:
-            
+            print('NOT RANDONLY')
             # Selects clients randomly to participate in the current training round
             selected_clients = random.sample(clients, k=min(self.num_group*alpha, len(clients)))
             print('Selected clients', len(selected_clients))
@@ -225,10 +225,10 @@ class FedGroup(GroupBase):
 
             return dm # shape=(n_clients, n_clients)
 
-    '''Rewrite the schedule client function of GroupBase,
-        This function will be call before traning.
-    '''
     def schedule_clients(self, round, selected_clients, groups):
+        '''Rewrite the schedule client function of GroupBase,
+          This function will be call before traning.
+        '''
         schedule_results = None
         if self.dynamic == True:
             # 1, Redo cold start distribution shift clients
@@ -259,8 +259,8 @@ class FedGroup(GroupBase):
 
         return schedule_results
 
-    ''' Rewrite the schedule group function of GroupBase '''
     def schedule_groups(self, round, clients, groups):
+        ''' Rewrite the schedule group function of GroupBase '''
         if self.dynamic == True and self.recluster_epoch is not None:
             # Reculster warm client
             if round in self.recluster_epoch:
@@ -268,9 +268,8 @@ class FedGroup(GroupBase):
                 self.recluster(warm_clients, groups)
         return
 
-    """ Reculster () clients and cold start (reassign group) the remain clients
-    """
     def recluster(self, clients, groups, alpha=20):
+        """Reculster () clients and cold start (reassign group) the remain clients"""
         if len(groups) != len(self.groups):
             print("Warning: Group Number is change!")
             # TODO: dynamic group num
