@@ -148,6 +148,7 @@ class GroupBase(object):
             count = Counter(gids)
             for id in sorted(count):
                 print(f'Round {comm_round}, Group {id} has {count[id]} client.')
+                print(f'Group {id} members: {[c.id for c in selected_clients if c.uplink[0].id == id]}')
 
             # 5, Inter-group aggregation according to the group learning rate
             if self.group_agg_lr > 0:

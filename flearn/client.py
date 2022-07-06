@@ -139,7 +139,9 @@ class Client(Actor):
         return
 
     def check_distribution_shift(self):
-        curr_count = np.zeros(self.num_classes)
+        # Recluster at each training round
+        #return True
+        '''curr_count = np.zeros(self.num_classes)
         label, count = np.unique(self.train_data['y'], return_counts=True)
         np.put(curr_count, label, count)
 
@@ -148,6 +150,6 @@ class Client(Actor):
             self.distribution_shift = True
             return curr_count
         else:
-            return None
+            return None'''
 
 

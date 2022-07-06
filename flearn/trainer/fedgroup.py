@@ -42,7 +42,6 @@ class FedGroup(GroupBase):
         # Strategy #2: Pre-train, then clustering the directions of clients' weights
         # <FedGroup> and <FedGrouProx> use this strategy
         if random_centers == False:
-            print('NOT RANDONLY')
             # Selects clients randomly to participate in the current training round
             selected_clients = random.sample(clients, k=min(self.num_group*alpha, len(clients)))
             print('Selected clients', len(selected_clients))
